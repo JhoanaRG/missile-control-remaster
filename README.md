@@ -1,4 +1,4 @@
-# 🚀 Missile Control Remaste
+# 🚀 Missile Control Remaster - Atari 2600
 
 **Missile Control Remaste** es un juego 2D desarrollado con **Lua2D**, inspirado en los clásicos de defensa de bases.
 
