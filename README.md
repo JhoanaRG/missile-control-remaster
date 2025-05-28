@@ -3,9 +3,10 @@
 **Missile Control Remaste** es un juego 2D desarrollado con **Lua2D**, inspirado en los clásicos de defensa de bases.
 
 ---
-| Nombre           | Cédula       |
-|------------------|--------------|
-| Jhoana Rodriguez | V-30.874.329   |
+| Nombre           | Cédula       | Sección | 
+|------------------|--------------|--------------|
+| Jhoana Rodriguez | V-30.874.329   | 2 | 
+| César Alvarado | V-28.051.655  | 2 | 
 ---
 
 
