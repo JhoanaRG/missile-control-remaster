@@ -11,7 +11,7 @@
 
 - Jugabilidad clásica con gráficos renovados.
 - Control preciso de misiles mediante clics del ratón.
-- Efectos visuales y sonoros envolventes.
+- Efectos visuales.
 - Sistema de puntuación y niveles progresivos.
 - Compatible con sistemas operativos modernos.
 
