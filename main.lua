@@ -25,7 +25,6 @@ function love.load()
     else
         print("No se encontró city.png - usando gráficos por defecto")
     end
-    
     success, result = pcall(love.graphics.newImage, "battery.png")
     if success then
         batteryImage = result
@@ -33,14 +32,11 @@ function love.load()
     else
         print("No se encontró battery.png - usando gráficos por defecto")
     end
-    
     gameState = "playing" 
-    
     score = 0
     level = 1
     cities = 6
-    ammo = 10
-    
+    ammo = 20
     cityPositions = {}
     local cityStartX = 150 
     local citySpacing = 100  
@@ -51,31 +47,24 @@ function love.load()
             alive = true
         }
     end
-    
     batteries = {
         {x = 120, y = SCREEN_HEIGHT - 30, alive = true},
         {x = SCREEN_WIDTH/2, y = SCREEN_HEIGHT - 30, alive = true},
         {x = SCREEN_WIDTH - 120, y = SCREEN_HEIGHT - 30, alive = true}
     }
-    
     enemySpaceships = {}
     playerMissiles = {}
     explosions = {}
-    
     enemySpawnTimer = 0
     enemySpawnRate = 3.0
-    
     particles = {}
-    
     font = love.graphics.newFont("atari.ttf",16)
     titleFont = love.graphics.newFont("atari.ttf",24)
     bigFont = love.graphics.newFont("atari.ttf", 32)
     love.graphics.setFont(font)
-    
     uiPulse = 0
     scoreDisplay = 0
     targetScore = 0
-    
     startNewWave()
 end
 
@@ -83,9 +72,8 @@ function love.update(dt)
     if gameState == "playing" then
         updateGame(dt)
     end
-    
     uiPulse = uiPulse + dt * 3
-    
+
     if scoreDisplay < targetScore then
         scoreDisplay = scoreDisplay + math.max(1, (targetScore - scoreDisplay) * dt * 5)
         if scoreDisplay > targetScore then
@@ -103,13 +91,11 @@ function updateGame(dt)
             enemySpawnRate = enemySpawnRate - 0.05
         end
     end
-    
     for i = #enemySpaceships, 1, -1 do
         local spaceship = enemySpaceships[i]
         spaceship.x = spaceship.x + spaceship.vx * dt
         spaceship.y = spaceship.y + spaceship.vy * dt
         spaceship.rotation = spaceship.rotation + spaceship.rotationSpeed * dt
-        
         local dist = math.sqrt((spaceship.x - spaceship.targetX)^2 + (spaceship.y - spaceship.targetY)^2)
         if dist < 10 then
             createExplosion(spaceship.x, spaceship.y, 80, "enemy")
@@ -118,7 +104,6 @@ function updateGame(dt)
             table.remove(enemySpaceships, i)
         end
     end
-    
     for i = #playerMissiles, 1, -1 do
         local missile = playerMissiles[i]
         missile.x = missile.x + missile.vx * dt
@@ -130,7 +115,6 @@ function updateGame(dt)
             table.remove(playerMissiles, i)
         end
     end
-    
     for i = #explosions, 1, -1 do
         local explosion = explosions[i]
         explosion.time = explosion.time + dt
@@ -148,7 +132,6 @@ function updateGame(dt)
             end
         end
     end
-    
     for i = #particles, 1, -1 do
         local particle = particles[i]
         particle.x = particle.x + particle.vx * dt
@@ -159,7 +142,6 @@ function updateGame(dt)
             table.remove(particles, i)
         end
     end
-    
     if cities <= 0 then
         gameState = "gameOver"
     end
@@ -173,23 +155,14 @@ end
 
 function love.draw()
     drawStars()
-    
     drawGround()
-    
     drawCities()
-    
     drawBatteries()
-    
     drawSpaceships()
-    
     drawExplosions()
-    
     drawParticles()
-    
     drawUI()
-    
     drawCrosshair()
-    
     if gameState == "gameOver" then
         drawGameOver()
     end
@@ -216,7 +189,6 @@ function spawnEnemySpaceship()
     local startX = math.random(0, SCREEN_WIDTH)
     local startY = -30
     local targetX, targetY
-    
     if math.random() < 0.7 then
         local aliveCities = {}
         for i, city in ipairs(cityPositions) do
@@ -249,7 +221,6 @@ function spawnEnemySpaceship()
     local speed = 60 + level * 10
     local vx = (targetX - startX) / distance * speed
     local vy = (targetY - startY) / distance * speed
-    
     table.insert(enemySpaceships, {
         x = startX,
         y = startY,
@@ -267,7 +238,6 @@ end
 function fireMissile(targetX, targetY)
     local closestBattery = nil
     local closestDistance = math.huge
-    
     for i, battery in ipairs(batteries) do
         if battery.alive then
             local distance = math.sqrt((battery.x - targetX)^2 + (battery.y - targetY)^2)
@@ -281,12 +251,10 @@ function fireMissile(targetX, targetY)
     if closestBattery then
         local startX = closestBattery.x
         local startY = closestBattery.y
-        
         local distance = math.sqrt((targetX - startX)^2 + (targetY - startY)^2)
         local speed = 400
         local vx = (targetX - startX) / distance * speed
         local vy = (targetY - startY) / distance * speed
-        
         table.insert(playerMissiles, {
             x = startX,
             y = startY,
@@ -309,7 +277,6 @@ function createExplosion(x, y, maxRadius, explosionType)
         duration = 1.5,
         type = explosionType
     })
-    
     for i = 1, 15 do
         table.insert(particles, {
             x = x,
@@ -357,7 +324,7 @@ end
 
 function startNewWave()
     level = level + 1
-    ammo = 10
+    ammo = 20
     enemySpawnRate = math.max(1.0, 3.0 - level * 0.15)
     
     for i, city in ipairs(cityPositions) do
@@ -374,7 +341,7 @@ function restartGame()
     scoreDisplay = 0
     level = 1
     cities = 6
-    ammo = 10
+    ammo = 20
     enemySpawnTimer = 0
     enemySpawnRate = 3.0
     
